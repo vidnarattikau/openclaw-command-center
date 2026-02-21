@@ -2,48 +2,48 @@
 <nav class="sidebar" id="sidebar">
   <div class="sidebar-header">
     <span class="sidebar-logo">🦞</span>
-    <span class="sidebar-title">Command Center</span>
+    <span class="sidebar-title">指挥中心</span>
     <button
       class="sidebar-toggle"
       id="sidebar-toggle-btn"
       onclick="toggleSidebar()"
-      title="Toggle sidebar"
+      title="折叠侧边栏"
     >
       ◀
     </button>
   </div>
   <div class="sidebar-nav">
     <div class="nav-section">
-      <div class="nav-section-title">Navigation</div>
+      <div class="nav-section-title">导航</div>
       <a
         href="#vitals-section"
         class="nav-item"
         data-section="vitals"
         data-page="/"
-        data-tooltip="System Vitals"
+        data-tooltip="系统状态"
       >
         <span class="nav-icon">🖥️</span>
-        <span>System Vitals</span>
+        <span>系统状态</span>
       </a>
       <a
         href="#llm-section"
         class="nav-item"
         data-section="llm"
         data-page="/"
-        data-tooltip="LLM Fuel Gauges"
+        data-tooltip="LLM 油量"
       >
         <span class="nav-icon">⛽</span>
-        <span>LLM Usage</span>
+        <span>LLM 用量</span>
       </a>
       <a
         href="#sessions-section"
         class="nav-item"
         data-section="sessions"
         data-page="/"
-        data-tooltip="Sessions"
+        data-tooltip="会话"
       >
         <span class="nav-icon">📡</span>
-        <span>Sessions</span>
+        <span>会话</span>
         <span class="nav-badge" id="nav-session-count">-</span>
       </a>
       <a
@@ -51,15 +51,15 @@
         class="nav-item"
         data-section="cron"
         data-page="/"
-        data-tooltip="Cron Jobs"
+        data-tooltip="定时任务"
       >
         <span class="nav-icon">⏰</span>
-        <span>Cron Jobs</span>
+        <span>定时任务</span>
         <span class="nav-badge" id="nav-cron-count">-</span>
       </a>
-      <a href="/jobs.html" class="nav-item" data-page="/jobs.html" data-tooltip="AI Jobs Dashboard">
+      <a href="/jobs.html" class="nav-item" data-page="/jobs.html" data-tooltip="AI 任务面板">
         <span class="nav-icon">🤖</span>
-        <span>AI Jobs</span>
+        <span>AI 任务</span>
         <span class="nav-badge" id="nav-jobs-count">-</span>
       </a>
       <a
@@ -67,10 +67,10 @@
         class="nav-item"
         data-section="memory"
         data-page="/"
-        data-tooltip="Memory"
+        data-tooltip="记忆"
       >
         <span class="nav-icon">🧠</span>
-        <span>Memory</span>
+        <span>记忆</span>
         <span class="nav-badge" id="nav-memory-count">-</span>
       </a>
       <a
@@ -78,10 +78,10 @@
         class="nav-item"
         data-section="cerebro"
         data-page="/"
-        data-tooltip="Cerebro"
+        data-tooltip="话题中枢"
       >
         <span class="nav-icon">🔮</span>
-        <span>Cerebro</span>
+        <span>话题中枢</span>
         <span class="nav-badge" id="nav-cerebro-count">-</span>
       </a>
       <a
@@ -89,15 +89,15 @@
         class="nav-item"
         data-section="operators"
         data-page="/"
-        data-tooltip="Operators"
+        data-tooltip="操作者"
       >
         <span class="nav-icon">👥</span>
-        <span>Operators</span>
+        <span>操作者</span>
         <span class="nav-badge" id="nav-operator-count">-</span>
       </a>
     </div>
     <div class="nav-section">
-      <div class="nav-section-title">Settings</div>
+      <div class="nav-section-title">设置</div>
       <a
         href="#"
         class="nav-item"
@@ -105,63 +105,63 @@
           window.openPrivacyModal && openPrivacyModal();
           return false;
         "
-        data-tooltip="Privacy Settings"
+        data-tooltip="隐私设置"
       >
         <span class="nav-icon">🔒</span>
-        <span>Privacy</span>
+        <span>隐私</span>
       </a>
       <a
         href="#about-section"
         class="nav-item"
         data-section="about"
         data-page="/"
-        data-tooltip="About"
+        data-tooltip="关于"
       >
         <span class="nav-icon">ℹ️</span>
-        <span>About</span>
+        <span>关于</span>
       </a>
     </div>
     <div class="nav-section">
-      <div class="nav-section-title">Quick Stats</div>
-      <div class="nav-item" style="cursor: default" data-tooltip="Total tokens (24h)">
+      <div class="nav-section-title">快速统计</div>
+      <div class="nav-item" style="cursor: default" data-tooltip="24小时总Token">
         <span class="nav-icon">🎫</span>
-        <span>Tokens</span>
+        <span>Token</span>
         <span class="nav-badge" id="nav-tokens">-</span>
       </div>
       <div
         class="nav-item"
         style="cursor: pointer"
         onclick="window.openCostModal && openCostModal()"
-        data-tooltip="Click for breakdown"
+        data-tooltip="点击查看明细"
       >
         <span class="nav-icon">💰</span>
-        <span>Est. Daily</span>
+        <span>预估日成本</span>
         <span class="nav-badge" id="nav-cost">-</span>
       </div>
       <div
         class="nav-item"
         style="cursor: pointer"
         onclick="window.openCostModal && openCostModal()"
-        data-tooltip="Projected monthly cost"
+        data-tooltip="预估月成本"
       >
         <span class="nav-icon">📅</span>
-        <span>Est. Monthly</span>
+        <span>预估月成本</span>
         <span class="nav-badge" id="nav-monthly-cost">-</span>
       </div>
-      <div class="nav-item" style="cursor: default" data-tooltip="Average tokens per session">
+      <div class="nav-item" style="cursor: default" data-tooltip="平均Token/会话">
         <span class="nav-icon">📊</span>
-        <span>Avg Tok/Sess</span>
+        <span>平均Token/会话</span>
         <span class="nav-badge" id="nav-avg-tokens">-</span>
       </div>
-      <div class="nav-item" style="cursor: default" data-tooltip="Average cost per session">
+      <div class="nav-item" style="cursor: default" data-tooltip="平均成本/会话">
         <span class="nav-icon">💵</span>
-        <span>Avg $/Sess</span>
+        <span>平均$/会话</span>
         <span class="nav-badge" id="nav-avg-cost">-</span>
       </div>
     </div>
   </div>
   <div class="sidebar-footer">
-    Auto-refresh: 30s<br />
+    自动刷新：30秒<br />
     <span id="sidebar-updated">-</span>
   </div>
 </nav>
