@@ -373,7 +373,7 @@
           <div class="quick-actions-title">⚡ 快捷操作</div>
           <button class="quick-action-btn" onclick="runHealthCheck()">🔍 健康检查</button>
           <button class="quick-action-btn" onclick="getGatewayStatus()">🚪 网关状态</button>
-          <button class="quick-action-btn" onclick="pruneStales会话()">
+          <button class="quick-action-btn" onclick="pruneStaleSessions()">
             🧹 清理陈旧会话
           </button>
         </div>
@@ -1758,7 +1758,7 @@
         if (group === "status") {
           // Reset to page 1 and fetch with new filter (server-side)
           paginationState.page = 1;
-          fetch会话(1);
+          fetchSessions(1);
         } else {
           // Channel/kind filters remain client-side for now
           applySessionFilters();
@@ -1895,7 +1895,7 @@
       }
 
       // Fetch sessions with pagination and server-side filtering
-      async function fetch会话(page = 1) {
+      async function fetchSessions(page = 1) {
         // Build URL with status filter
         const statusFilter = sessionFilters.status;
         let url = `/api/sessions?page=${page}&pageSize=${paginationState.pageSize}`;
@@ -1907,7 +1907,7 @@
           const response = await fetch(url);
           const data = await response.json();
           if (data?.sessions) {
-            render会话(data.sessions, data.pagination, data.statusCounts);
+            renderSessions(data.sessions, data.pagination, data.statusCounts);
             if (data.tokenStats) renderTokenStats(data.tokenStats);
             if (data.capacity) renderCapacity(data.capacity);
           }
@@ -1923,14 +1923,14 @@
         const newPage = paginationState.page + delta;
         if (newPage < 1 || newPage > paginationState.totalPages) return;
         paginationState.page = newPage;
-        fetch会话(newPage);
+        fetchSessions(newPage);
       }
 
       // Go to specific page
       function goToPage(page) {
         if (page < 1 || page > paginationState.totalPages) return;
         paginationState.page = page;
-        fetch会话(page);
+        fetchSessions(page);
       }
 
       // Render pagination controls
@@ -2018,7 +2018,7 @@
 
         // Render each section
         if (state.vitals) renderVitals(state.vitals);
-        if (state.sessions) render会话(state.sessions, state.pagination, state.statusCounts);
+        if (state.sessions) renderSessions(state.sessions, state.pagination, state.statusCounts);
         if (state.tokenStats) renderTokenStats(state.tokenStats);
         if (state.capacity) renderCapacity(state.capacity);
         if (state.operators) renderOperators(state.operators);
@@ -2026,7 +2026,7 @@
         if (state.cron) renderCron(state.cron);
         if (state.memory) renderMemory(state.memory);
         if (state.cerebro) renderCerebro(state.cerebro);
-        if (state.subagents) render子代理s(state.subagents);
+        if (state.subagents) renderSubagents(state.subagents);
       }
 
       // Legacy fallback - multiple API calls (used if /api/state fails)
@@ -2066,14 +2066,14 @@
 
         if (vitals?.vitals) renderVitals(vitals.vitals);
         if (sessions?.sessions)
-          render会话(sessions.sessions, sessions.pagination, sessions.statusCounts);
+          renderSessions(sessions.sessions, sessions.pagination, sessions.statusCounts);
         if (sessions?.tokenStats) renderTokenStats(sessions.tokenStats);
         if (operators) renderOperators(operators);
         if (llm) renderLlmUsage(llm);
         if (cron?.cron) renderCron(cron.cron);
         if (memory?.memory) renderMemory(memory.memory);
         if (cerebro) renderCerebro(cerebro);
-        if (subagents?.subagents) render子代理s(subagents.subagents);
+        if (subagents?.subagents) renderSubagents(subagents.subagents);
 
         const now = new Date().toLocaleTimeString();
         $set("last-updated", "textContent", now);
@@ -2081,7 +2081,7 @@
       }
 
       // Render just sessions (for progressive loading)
-      function render会话(sessions, pagination, statusCounts) {
+      function renderSessions(sessions, pagination, statusCounts) {
         const sessionsEl = document.getElementById("sessions");
         sessionsData = sessions;
 
@@ -2961,7 +2961,7 @@
       function renderDashboard(data) {
         // Use the split render functions (avoids code duplication)
         if (data.vitals) renderVitals(data.vitals);
-        if (data.sessions) render会话(data.sessions, data.pagination, data.statusCounts);
+        if (data.sessions) renderSessions(data.sessions, data.pagination, data.statusCounts);
         if (data.cron) renderCron(data.cron);
         if (data.tokenStats) {
           renderTokenStats(data.tokenStats);
@@ -3277,7 +3277,7 @@
         }
       }
 
-      function renderOperatorModal(operator, all会话) {
+      function renderOperatorModal(operator, allSessions) {
         const displayName = operator.displayName || operator.username || "Unknown";
         document.getElementById("operator-modal-name").textContent = displayName;
 
@@ -3488,16 +3488,16 @@
       }
 
       // Session-specific functions
-      function getHidden会话() {
+      function getHiddenSessions() {
         return privacySettingsCache?.hidden会话 || [];
       }
-      function setHidden会话(sessions) {
+      function setHiddenSessions(sessions) {
         if (!privacySettingsCache) privacySettingsCache = {};
         privacySettingsCache.hidden会话 = sessions;
         savePrivacyToServer();
       }
       function isSessionHidden(session) {
-        const hidden = getHidden会话();
+        const hidden = getHiddenSessions();
         const key = (session.sessionKey || session.key || "").toLowerCase().trim();
         return hidden.some((h) => (h.id || "").toLowerCase().trim() === key);
       }
@@ -3539,10 +3539,10 @@
         const session = (input.value || "").trim();
         if (!session) return;
 
-        const hidden = getHidden会话();
+        const hidden = getHiddenSessions();
         if (!hidden.some((h) => (h.id || "").toLowerCase() === session.toLowerCase())) {
           hidden.push({ id: session, name: session });
-          setHidden会话(hidden);
+          setHiddenSessions(hidden);
         }
         input.value = "";
         renderPrivacyLists();
@@ -3577,10 +3577,10 @@
       }
 
       function quickHideSession(id, name) {
-        const hidden = getHidden会话();
+        const hidden = getHiddenSessions();
         if (!hidden.some((h) => (h.id || "").toLowerCase() === id.toLowerCase())) {
           hidden.push({ id: id, name: name || id });
-          setHidden会话(hidden);
+          setHiddenSessions(hidden);
         }
         refreshAllViews();
         showToast(`Session "${name || id}" hidden. Open Privacy Settings to unhide.`);
@@ -3606,9 +3606,9 @@
       }
 
       function removeHiddenSession(id) {
-        const hidden = getHidden会话();
+        const hidden = getHiddenSessions();
         const filtered = hidden.filter((h) => (h.id || "").toLowerCase() !== id.toLowerCase());
-        setHidden会话(filtered);
+        setHiddenSessions(filtered);
         renderPrivacyLists();
         refreshAllViews();
       }
@@ -3624,7 +3624,7 @@
       // Clear all
       function clearAllPrivacySettings() {
         setHiddenTopics([]);
-        setHidden会话([]);
+        setHiddenSessions([]);
         setHiddenCrons([]);
         setHideHostname(false);
         renderPrivacyLists();
@@ -3669,7 +3669,7 @@
       // Refresh all views after privacy change
       function refreshAllViews() {
         if (window.lastCerebroData) renderCerebro(window.lastCerebroData);
-        render会话(sessionsData);
+        renderSessions(sessionsData);
         if (cronData && cronData.length > 0) renderCron(cronData);
         updateHostnameDisplay();
       }
@@ -3677,7 +3677,7 @@
       // Render all privacy lists
       function renderPrivacyLists() {
         renderHiddenTopicsList();
-        renderHidden会话List();
+        renderHiddenSessionsList();
         renderHiddenCronsList();
       }
 
@@ -3709,10 +3709,10 @@
           .join("");
       }
 
-      function renderHidden会话List() {
+      function renderHiddenSessionsList() {
         const container = document.getElementById("hidden-sessions-list");
         if (!container) return;
-        const hidden = getHidden会话();
+        const hidden = getHiddenSessions();
 
         // Update count in heading
         const countEl = document.getElementById("privacy-sessions-count");
@@ -4270,7 +4270,7 @@
       }
 
       // Sub-agent Status Rendering
-      function render子代理s(subagents) {
+      function renderSubagents(subagents) {
         const grid = document.getElementById("subagent-grid");
         const countElement = document.getElementById("subagent-count");
 
@@ -4388,7 +4388,7 @@
         }
       }
 
-      async function pruneStales会话() {
+      async function pruneStaleSessions() {
         try {
           const response = await fetch("/api/action?action=prune-stale");
           const data = await response.json();

@@ -995,7 +995,7 @@
       }
 
       // 获取任务状态样式
-      function getJob状态(job) {
+      function getJobStatus(job) {
         if (job.paused) return "paused";
         if (job.stats?.streak?.type === "failed" && job.stats.streak.count >= 2) return "failed";
         return "enabled";
@@ -1003,7 +1003,7 @@
 
       // 获取任务图标
       function getJobIcon(job) {
-        const status = getJob状态(job);
+        const status = getJobStatus(job);
         if (status === "paused") return "⏸️";
         if (status === "failed") return "⚠️";
         return "⚙️";
@@ -1011,7 +1011,7 @@
 
       // 渲染单个任务卡片
       function renderJobCard(job) {
-        const status = getJob状态(job);
+        const status = getJobStatus(job);
         const icon = getJobIcon(job);
         const successRate = job.stats?.successRate
           ? Math.round(job.stats.successRate * 100) + "%"
@@ -1111,7 +1111,7 @@
         let filteredJobs = jobs;
         if (currentFilter !== "all") {
           filteredJobs = jobs.filter((j) => {
-            const status = getJob状态(j);
+            const status = getJobStatus(j);
             if (currentFilter === "active") return status === "enabled";
             if (currentFilter === "paused") return status === "paused";
             if (currentFilter === "failed") return status === "failed";
