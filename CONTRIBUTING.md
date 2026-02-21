@@ -1,5 +1,7 @@
 # Contributing to OpenClaw Command Center
 
+> 🇨🇳 简体中文版本：[CONTRIBUTING.zh-CN.md](./CONTRIBUTING.zh-CN.md)
+
 > _"Join the Swarm. Evolve together."_
 
 First off, thank you for considering contributing to OpenClaw Command Center! This project thrives on community involvement.

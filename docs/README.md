@@ -4,6 +4,11 @@
 
 ## 📚 Contents
 
+- 🇨🇳 简体中文文档：[README.zh-CN.md](./README.zh-CN.md)
+- 🇨🇳 架构文档（中文）：[architecture/OVERVIEW.zh-CN.md](./architecture/OVERVIEW.zh-CN.md)
+- 🇨🇳 贡献指南（中文）：[../CONTRIBUTING.zh-CN.md](../CONTRIBUTING.zh-CN.md)
+- 🇨🇳 行为准则（中文）：[../CODE_OF_CONDUCT.zh-CN.md](../CODE_OF_CONDUCT.zh-CN.md)
+
 ### Getting Started
 
 - [Installation Guide](./guides/installation.md) _(coming soon)_

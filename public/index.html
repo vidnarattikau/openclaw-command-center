@@ -1,12 +1,13 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>OpenClaw Command Center</title>
+    <title>OpenClaw 指挥中心</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <link rel="stylesheet" href="css/dashboard.css" />
     <script src="js/lib/morphdom.min.js"></script>
+    <script src="js/i18n-zh.js"></script>
     <!-- Shared Sidebar Loader -->
     <script src="js/sidebar.js"></script>
   </head>
@@ -14,7 +15,7 @@
     <!-- Sidebar container (populated by sidebar.js) -->
     <div id="sidebar-container"></div>
 
-    <!-- Main Content -->
+    <!-- 主会话 Content -->
     <div class="main-wrapper" id="main-wrapper">
       <header>
         <div class="header-left">
@@ -26,43 +27,43 @@
           >
             ☰
           </button>
-          <h1 class="page-title">OpenClaw Command Center</h1>
+          <h1 class="page-title">OpenClaw 指挥中心</h1>
         </div>
-        <div class="status-pill" id="connection-status" title="SSE connection status">
+        <div class="status-pill" id="connection-status" title="SSE 连接状态">
           <div class="pulse" id="connection-pulse"></div>
-          <span id="gateway-status">Connecting...</span>
+          <span id="gateway-status">连接中...</span>
         </div>
       </header>
 
       <div class="stats-bar">
         <div class="stat">
           <div class="stat-value" id="total-tokens">-</div>
-          <div class="stat-label">Total Tokens</div>
+          <div class="stat-label">总 Token</div>
         </div>
         <div class="stat">
           <div class="stat-value" id="input-tokens">-</div>
-          <div class="stat-label">Input</div>
+          <div class="stat-label">输入</div>
         </div>
         <div class="stat">
           <div class="stat-value" id="output-tokens">-</div>
-          <div class="stat-label">Output</div>
+          <div class="stat-label">输出</div>
         </div>
-        <div class="stat" title="Sessions active within last 15 minutes">
+        <div class="stat" title="15 分钟内活跃会话">
           <div class="stat-value" id="active-sessions">-</div>
-          <div class="stat-label">Active (15m)</div>
+          <div class="stat-label">活跃(15分钟)</div>
         </div>
         <div
           class="stat"
-          title="Click for cost breakdown"
+          title="点击查看成本明细"
           onclick="openCostModal()"
           style="cursor: pointer"
         >
           <div class="stat-value" id="est-cost">-</div>
-          <div class="stat-label">Est. Cost (24h) 📊</div>
+          <div class="stat-label">预估成本(24小时) 📊</div>
         </div>
         <div
           class="stat"
-          title="Click for cost breakdown"
+          title="点击查看成本明细"
           id="savings-stat"
           style="display: none; cursor: pointer"
         >
@@ -75,7 +76,7 @@
             -
           </div>
           <div class="stat-label" style="display: flex; align-items: center; gap: 4px">
-            <span onclick="openCostModal()">Est. Monthly Savings</span>
+            <span onclick="openCostModal()">预估月节省</span>
             <select
               id="savings-window-select"
               style="
@@ -89,20 +90,20 @@
               "
               onclick="event.stopPropagation()"
             >
-              <option value="24h">24h</option>
-              <option value="3dma">3dma</option>
-              <option value="7dma" selected>7dma</option>
+              <option value="24h">24小时</option>
+              <option value="3dma">3天均值</option>
+              <option value="7dma" selected>7天均值</option>
             </select>
             💰
           </div>
         </div>
-        <div class="stat" title="Main session capacity">
+        <div class="stat" title="主会话容量">
           <div class="stat-value" id="main-capacity">-</div>
-          <div class="stat-label">Main</div>
+          <div class="stat-label">主会话</div>
         </div>
-        <div class="stat" title="Sub-agent capacity">
+        <div class="stat" title="子代理容量">
           <div class="stat-value" id="subagent-capacity">-</div>
-          <div class="stat-label">Sub-agents</div>
+          <div class="stat-label">子代理</div>
         </div>
       </div>
 
@@ -113,10 +114,10 @@
           <div class="vitals-panel">
             <div class="vitals-header">
               <div class="vitals-title">
-                🖥️ System Vitals
+                🖥️ 系统状态
                 <span class="vitals-hostname" id="vitals-hostname">-</span>
               </div>
-              <div class="vitals-uptime">Uptime: <span id="vitals-uptime">-</span></div>
+              <div class="vitals-uptime">运行时长：<span id="vitals-uptime">-</span></div>
             </div>
             <div class="vitals-grid">
               <!-- CPU -->
@@ -135,33 +136,33 @@
                 <div class="vital-detail" style="margin-bottom: 8px">
                   <div class="vital-detail-item">
                     <span class="vital-detail-value" id="cpu-user">-%</span>
-                    <span class="vital-detail-label">user</span>
+                    <span class="vital-detail-label">用户</span>
                   </div>
                   <div class="vital-detail-item">
                     <span class="vital-detail-value" id="cpu-sys">-%</span>
-                    <span class="vital-detail-label">sys</span>
+                    <span class="vital-detail-label">系统</span>
                   </div>
                   <div class="vital-detail-item">
                     <span class="vital-detail-value" id="cpu-idle">-%</span>
-                    <span class="vital-detail-label">idle</span>
+                    <span class="vital-detail-label">空闲</span>
                   </div>
                 </div>
                 <div class="vital-detail">
                   <div class="vital-detail-item">
                     <span class="vital-detail-value" id="cpu-load-1">-</span>
-                    <span class="vital-detail-label">1m avg</span>
+                    <span class="vital-detail-label">1分钟均值</span>
                   </div>
                   <div class="vital-detail-item">
                     <span class="vital-detail-value" id="cpu-load-5">-</span>
-                    <span class="vital-detail-label">5m avg</span>
+                    <span class="vital-detail-label">5分钟均值</span>
                   </div>
                   <div class="vital-detail-item">
                     <span class="vital-detail-value" id="cpu-load-15">-</span>
-                    <span class="vital-detail-label">15m avg</span>
+                    <span class="vital-detail-label">15分钟均值</span>
                   </div>
                   <div class="vital-detail-item">
                     <span class="vital-detail-value" id="cpu-cores">-</span>
-                    <span class="vital-detail-label">cores</span>
+                    <span class="vital-detail-label">核心数</span>
                   </div>
                 </div>
                 <div
@@ -178,9 +179,9 @@
               <!-- Memory -->
               <div class="vital-card">
                 <div class="vital-header">
-                  <span class="vital-label">🧠 Memory</span>
+                  <span class="vital-label">🧠 内存</span>
                   <span class="vital-value" id="mem-percent"
-                    >-% <small style="font-size: 0.6em; opacity: 0.7">used</small></span
+                    >-% <small style="font-size: 0.6em; opacity: 0.7">已用</small></span
                   >
                 </div>
                 <div class="vital-bar">
@@ -189,48 +190,48 @@
                 <div class="vital-detail">
                   <div class="vital-detail-item" style="flex: 2">
                     <span class="vital-detail-value" id="mem-summary">-</span>
-                    <span class="vital-detail-label">used of total</span>
+                    <span class="vital-detail-label">已用 / 总量</span>
                   </div>
                   <div class="vital-detail-item">
                     <span class="vital-detail-value" id="mem-free">-</span>
-                    <span class="vital-detail-label">available</span>
+                    <span class="vital-detail-label">可用</span>
                   </div>
                 </div>
                 <div
                   class="vital-detail"
                   style="margin-top: 8px; border-top: 1px solid var(--border); padding-top: 8px"
                 >
-                  <div class="vital-detail-item" title="Memory actively used by apps">
+                  <div class="vital-detail-item" title="应用实际占用内存">
                     <span class="vital-detail-value" id="mem-active">-</span>
-                    <span class="vital-detail-label">App</span>
+                    <span class="vital-detail-label">应用</span>
                   </div>
                   <div
                     class="vital-detail-item"
-                    title="Memory that can't be swapped (kernel, drivers)"
+                    title="不可交换内存（内核/驱动）"
                   >
                     <span class="vital-detail-value" id="mem-wired">-</span>
-                    <span class="vital-detail-label">Wired</span>
+                    <span class="vital-detail-label">固定</span>
                   </div>
-                  <div class="vital-detail-item" title="Memory compressed to save space">
+                  <div class="vital-detail-item" title="压缩内存">
                     <span class="vital-detail-value" id="mem-compressed">-</span>
-                    <span class="vital-detail-label">Compressed</span>
+                    <span class="vital-detail-label">压缩</span>
                   </div>
-                  <div class="vital-detail-item" title="Recently-used data, can be reclaimed">
+                  <div class="vital-detail-item" title="可回收缓存">
                     <span class="vital-detail-value" id="mem-cached">-</span>
-                    <span class="vital-detail-label">Cached</span>
+                    <span class="vital-detail-label">缓存</span>
                   </div>
                 </div>
                 <div style="margin-top: 8px; text-align: center">
-                  <span class="pressure-indicator normal" id="mem-pressure">Normal</span>
+                  <span class="pressure-indicator normal" id="mem-pressure">正常</span>
                 </div>
               </div>
 
               <!-- Disk -->
               <div class="vital-card">
                 <div class="vital-header">
-                  <span class="vital-label">💾 Disk</span>
+                  <span class="vital-label">💾 磁盘</span>
                   <span class="vital-value" id="disk-percent"
-                    >-% <small style="font-size: 0.6em; opacity: 0.7">used</small></span
+                    >-% <small style="font-size: 0.6em; opacity: 0.7">已用</small></span
                   >
                 </div>
                 <div class="vital-bar">
@@ -239,11 +240,11 @@
                 <div class="vital-detail">
                   <div class="vital-detail-item" style="flex: 2">
                     <span class="vital-detail-value" id="disk-summary">-</span>
-                    <span class="vital-detail-label">used of total</span>
+                    <span class="vital-detail-label">已用 / 总量</span>
                   </div>
                   <div class="vital-detail-item">
                     <span class="vital-detail-value" id="disk-free">-</span>
-                    <span class="vital-detail-label">available</span>
+                    <span class="vital-detail-label">可用</span>
                   </div>
                 </div>
                 <div
@@ -260,7 +261,7 @@
                   </div>
                   <div class="vital-detail-item">
                     <span class="vital-detail-value" id="disk-kbt">-</span>
-                    <span class="vital-detail-label">KB/t</span>
+                    <span class="vital-detail-label">KB/次</span>
                   </div>
                 </div>
               </div>
@@ -268,7 +269,7 @@
               <!-- Temperature -->
               <div class="vital-card" id="temp-card">
                 <div class="vital-header">
-                  <span class="vital-label">🌡️ Temperature</span>
+                  <span class="vital-label">🌡️ 温度</span>
                 </div>
                 <div class="temp-display">
                   <span class="temp-value" id="temp-value">-</span>
@@ -276,7 +277,7 @@
                 </div>
                 <div class="vital-detail" style="margin-top: 8px">
                   <span id="temp-status" style="font-size: 0.75rem; color: var(--text-muted)"
-                    >Checking...</span
+                    >检测中...</span
                   >
                 </div>
               </div>
@@ -360,7 +361,7 @@
               "
             >
               <div style="display: flex; justify-content: space-between">
-                <span>Tasks Today</span>
+                <span>Tasks 今日</span>
                 <span id="codex-tasks">0</span>
               </div>
             </div>
@@ -369,11 +370,11 @@
 
         <!-- Quick Actions -->
         <div class="quick-actions">
-          <div class="quick-actions-title">⚡ Quick Actions</div>
-          <button class="quick-action-btn" onclick="runHealthCheck()">🔍 Health Check</button>
-          <button class="quick-action-btn" onclick="getGatewayStatus()">🚪 Gateway Status</button>
-          <button class="quick-action-btn" onclick="pruneStalesSessions()">
-            🧹 Clean Stale Sessions
+          <div class="quick-actions-title">⚡ 快捷操作</div>
+          <button class="quick-action-btn" onclick="runHealthCheck()">🔍 健康检查</button>
+          <button class="quick-action-btn" onclick="getGatewayStatus()">🚪 网关状态</button>
+          <button class="quick-action-btn" onclick="pruneStaleSessions()">
+            🧹 清理陈旧会话
           </button>
         </div>
 
@@ -511,25 +512,25 @@
           </div>
         </div>
 
-        <!-- Sessions Section -->
+        <!-- 会话 Section -->
         <div class="section" id="sessions-section">
           <div class="section-header">
             <div class="section-title">
-              📡 Sessions <span class="section-count" id="session-count">0</span>
+              📡 会话 <span class="section-count" id="session-count">0</span>
             </div>
           </div>
 
           <!-- Session Filters -->
           <div class="section-filters">
             <div class="filter-group">
-              <span class="filter-label">Status:</span>
+              <span class="filter-label">状态：</span>
               <button
                 class="filter-btn active"
                 data-filter="all"
                 data-group="session-status"
                 onclick="setSessionFilter('status', 'all')"
               >
-                All <span class="filter-count" id="filter-all-count">0</span>
+                全部 <span class="filter-count" id="filter-all-count">0</span>
               </button>
               <button
                 class="filter-btn"
@@ -560,14 +561,14 @@
               </button>
             </div>
             <div class="filter-group">
-              <span class="filter-label">Channel:</span>
+              <span class="filter-label">渠道：</span>
               <button
                 class="filter-btn active"
                 data-filter="all"
                 data-group="session-channel"
                 onclick="setSessionFilter('channel', 'all')"
               >
-                All
+                全部
               </button>
               <button
                 class="filter-btn"
@@ -611,14 +612,14 @@
               </button>
             </div>
             <div class="filter-group">
-              <span class="filter-label">Kind:</span>
+              <span class="filter-label">类型：</span>
               <button
                 class="filter-btn active"
                 data-filter="all"
                 data-group="session-kind"
                 onclick="setSessionFilter('kind', 'all')"
               >
-                All
+                全部
               </button>
               <button
                 class="filter-btn"
@@ -626,7 +627,7 @@
                 data-group="session-kind"
                 onclick="setSessionFilter('kind', 'main')"
               >
-                Main
+                主会话
               </button>
               <button
                 class="filter-btn"
@@ -634,7 +635,7 @@
                 data-group="session-kind"
                 onclick="setSessionFilter('kind', 'subagent')"
               >
-                Subagent
+                子代理
               </button>
               <button
                 class="filter-btn"
@@ -704,21 +705,21 @@
         <div class="section" id="cron-section">
           <div class="section-header">
             <div class="section-title">
-              ⏰ Cron Jobs <span class="section-count" id="cron-count">0</span>
+              ⏰ 定时任务 <span class="section-count" id="cron-count">0</span>
             </div>
           </div>
 
           <!-- Cron Filters -->
           <div class="section-filters">
             <div class="filter-group">
-              <span class="filter-label">Status:</span>
+              <span class="filter-label">状态：</span>
               <button
                 class="filter-btn active"
                 data-filter="all"
                 data-group="cron-status"
                 onclick="setCronFilter('status', 'all')"
               >
-                All
+                全部
               </button>
               <button
                 class="filter-btn"
@@ -726,7 +727,7 @@
                 data-group="cron-status"
                 onclick="setCronFilter('status', 'enabled')"
               >
-                ✅ Enabled
+                ✅ 启用
               </button>
               <button
                 class="filter-btn"
@@ -734,7 +735,7 @@
                 data-group="cron-status"
                 onclick="setCronFilter('status', 'disabled')"
               >
-                ⏸️ Disabled
+                ⏸️ 停用
               </button>
             </div>
             <div class="filter-group">
@@ -745,7 +746,7 @@
                 data-group="cron-schedule"
                 onclick="setCronFilter('schedule', 'all')"
               >
-                All
+                全部
               </button>
               <button
                 class="filter-btn"
@@ -761,7 +762,7 @@
                 data-group="cron-schedule"
                 onclick="setCronFilter('schedule', 'daily')"
               >
-                📅 Daily
+                📅 每日
               </button>
               <button
                 class="filter-btn"
@@ -769,7 +770,7 @@
                 data-group="cron-schedule"
                 onclick="setCronFilter('schedule', 'weekly')"
               >
-                📆 Weekly
+                📆 每周
               </button>
             </div>
           </div>
@@ -806,14 +807,14 @@
           <!-- Memory Filters -->
           <div class="section-filters">
             <div class="filter-group">
-              <span class="filter-label">Type:</span>
+              <span class="filter-label">类型：</span>
               <button
                 class="filter-btn active"
                 data-filter="all"
                 data-group="memory-type"
                 onclick="setMemoryFilter('type', 'all')"
               >
-                All
+                全部
               </button>
               <button
                 class="filter-btn"
@@ -821,7 +822,7 @@
                 data-group="memory-type"
                 onclick="setMemoryFilter('type', 'daily')"
               >
-                📅 Daily Logs
+                📅 每日 Logs
               </button>
               <button
                 class="filter-btn"
@@ -829,18 +830,18 @@
                 data-group="memory-type"
                 onclick="setMemoryFilter('type', 'state')"
               >
-                📊 State Files
+                📊 状态文件
               </button>
             </div>
             <div class="filter-group">
-              <span class="filter-label">Age:</span>
+              <span class="filter-label">时间：</span>
               <button
                 class="filter-btn active"
                 data-filter="all"
                 data-group="memory-age"
                 onclick="setMemoryFilter('age', 'all')"
               >
-                All
+                全部
               </button>
               <button
                 class="filter-btn"
@@ -848,7 +849,7 @@
                 data-group="memory-age"
                 onclick="setMemoryFilter('age', 'today')"
               >
-                Today
+                今日
               </button>
               <button
                 class="filter-btn"
@@ -856,7 +857,7 @@
                 data-group="memory-age"
                 onclick="setMemoryFilter('age', 'week')"
               >
-                This Week
+                本周
               </button>
               <button
                 class="filter-btn"
@@ -864,7 +865,7 @@
                 data-group="memory-age"
                 onclick="setMemoryFilter('age', 'older')"
               >
-                Older
+                更早
               </button>
             </div>
           </div>
@@ -894,7 +895,7 @@
               <!-- Daily Files -->
               <div class="vital-card">
                 <div class="vital-header">
-                  <span class="vital-label">📅 Daily Notes</span>
+                  <span class="vital-label">📅 每日 Notes</span>
                 </div>
                 <div class="vital-detail" style="margin-top: 8px">
                   <div class="vital-detail-item">
@@ -931,7 +932,7 @@
               "
             >
               <span style="font-size: 0.75rem; color: var(--text-muted)">
-                🔒 Memory editing UI coming soon (Inside Out style!)
+                🔒 记忆编辑界面即将上线（Inside Out 风格）
               </span>
             </div>
           </div>
@@ -1072,7 +1073,7 @@
                 "
               >
                 <span style="font-size: 0.75rem; color: var(--text-muted)">
-                  Last updated: <span id="cerebro-last-updated">-</span>
+                  最后更新： <span id="cerebro-last-updated">-</span>
                 </span>
                 <a
                   href="file://#"
@@ -1149,7 +1150,7 @@
                   "
                 ></span>
                 <span style="font-size: 0.85rem">User</span>
-                <span style="font-size: 0.7rem; color: var(--text-muted)">Dashboard access</span>
+                <span style="font-size: 0.7rem; color: var(--text-muted)">面板访问</span>
               </div>
             </div>
           </div>
@@ -1164,10 +1165,10 @@
             <div style="text-align: center; padding: 20px 0">
               <div style="font-size: 3rem; margin-bottom: 12px">🦞</div>
               <h2 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 8px">
-                OpenClaw Command Center
+                OpenClaw 指挥中心
               </h2>
               <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px">
-                A Starcraft-inspired dashboard for OpenClaw orchestration
+                一个受星际争霸启发的 OpenClaw 编排面板
               </p>
 
               <div style="display: flex; justify-content: center; gap: 12px; margin-bottom: 24px">
@@ -1266,7 +1267,7 @@
       </main>
 
       <div class="refresh-bar">
-        <span id="refresh-mode">Real-time updates via SSE</span> • Last updated:
+        <span id="refresh-mode">通过 SSE 实时更新</span> • 最后更新：
         <span id="last-updated"
           ><span class="loading-dots"><span></span><span></span><span></span></span
         ></span>
@@ -1362,7 +1363,7 @@
         <div class="detail-section">
           <h3>Step 2: Update OpenClaw Agent</h3>
           <div class="detail-box">
-            <p>Run the onboard wizard to update your agent credentials:</p>
+            <p>运行引导向导以更新你的 Agent 凭据：</p>
             <pre
               style="
                 background: #1e1e2e;
@@ -1393,7 +1394,7 @@
         <div class="detail-section">
           <h3>Step 3: Verify</h3>
           <div class="detail-box">
-            <p>Refresh this dashboard or run:</p>
+            <p>刷新此面板或执行：</p>
             <pre
               style="
                 background: #1e1e2e;
@@ -1439,7 +1440,7 @@
           <div class="detail-box" id="cost-savings"></div>
         </div>
         <div class="detail-section">
-          <h3>🔥 Top Sessions by Tokens (24h)</h3>
+          <h3>🔥 24小时 Token 最高会话</h3>
           <div class="detail-box" id="cost-top-sessions" style="font-size: 0.85rem"></div>
         </div>
       </div>
@@ -1512,12 +1513,12 @@
           </div>
         </div>
 
-        <!-- Hidden Sessions Section -->
+        <!-- 已隐藏会话 Section -->
         <div
           style="margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border)"
         >
           <label style="font-size: 0.95rem; font-weight: 600; display: block; margin-bottom: 12px"
-            >📋 Hidden Sessions
+            >📋 已隐藏会话
             <span id="privacy-sessions-count" style="color: var(--text-muted); font-weight: normal"
               >(0)</span
             ></label
@@ -1547,12 +1548,12 @@
           </p>
         </div>
 
-        <!-- Hidden Cron Jobs Section -->
+        <!-- 已隐藏定时任务 Section -->
         <div
           style="margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border)"
         >
           <label style="font-size: 0.95rem; font-weight: 600; display: block; margin-bottom: 12px"
-            >⏰ Hidden Cron Jobs
+            >⏰ 已隐藏定时任务
             <span id="privacy-crons-count" style="color: var(--text-muted); font-weight: normal"
               >(0)</span
             ></label
@@ -1607,7 +1608,7 @@
 
         <div>
           <button class="btn-secondary" onclick="clearAllPrivacySettings()" style="width: 100%">
-            Clear All Privacy Settings
+            清空全部隐私设置
           </button>
         </div>
       </div>
@@ -2095,13 +2096,13 @@
         const displayCount = paginationState.total > 0 ? paginationState.total : sessions.length;
 
         // Filter out hidden sessions
-        const visibleSessions = sessions.filter((s) => !isSessionHidden(s));
-        const hiddenSessionsCount = sessions.length - visibleSessions.length;
+        const visible会话 = sessions.filter((s) => !isSessionHidden(s));
+        const hidden会话Count = sessions.length - visible会话.length;
 
         // Show hidden count breakdown if any hidden
         const sessionCountText =
-          hiddenSessionsCount > 0
-            ? `${displayCount} (${hiddenSessionsCount} hidden)`
+          hidden会话Count > 0
+            ? `${displayCount} (${hidden会话Count} hidden)`
             : displayCount;
         $set("session-count", "textContent", sessionCountText);
         $set("nav-session-count", "textContent", displayCount);
@@ -2113,7 +2114,7 @@
         }
         // Removed: fallback to updateFilterCounts(sessions) which only counted current page
 
-        if (visibleSessions.length === 0) {
+        if (visible会话.length === 0) {
           smartUpdate(
             sessionsEl,
             `
@@ -2126,7 +2127,7 @@
         } else {
           smartUpdate(
             sessionsEl,
-            visibleSessions
+            visible会话
               .sort((a, b) => a.minutesAgo - b.minutesAgo)
               .map((s) => {
                 const iconClass =
@@ -2362,8 +2363,8 @@
                   ? `<img src="${escapeHtml(op.avatar)}" alt="${escapeHtml(op.name)}">`
                   : initial;
 
-                const activeSessions = op.stats?.activeSessions || 0;
-                const totalSessions = op.stats?.totalSessions || 0;
+                const active会话 = op.stats?.active会话 || 0;
+                const total会话 = op.stats?.total会话 || 0;
 
                 let lastSeenText = "Never";
                 if (op.stats?.lastSeen) {
@@ -2384,12 +2385,12 @@
                         </div>
                         <div class="operator-stats">
                             <div class="operator-stat">
-                                <div class="operator-stat-value" style="color: ${activeSessions > 0 ? "var(--green)" : "var(--text-muted)"}">${activeSessions}</div>
+                                <div class="operator-stat-value" style="color: ${active会话 > 0 ? "var(--green)" : "var(--text-muted)"}">${active会话}</div>
                                 <div class="operator-stat-label">Active</div>
                             </div>
                             <div class="operator-stat">
-                                <div class="operator-stat-value">${totalSessions}</div>
-                                <div class="operator-stat-label">Sessions</div>
+                                <div class="operator-stat-value">${total会话}</div>
+                                <div class="operator-stat-label">会话</div>
                             </div>
                             <div class="operator-stat">
                                 <div class="operator-stat-value" style="font-size: 0.9rem;">${lastSeenText}</div>
@@ -3281,15 +3282,15 @@
         document.getElementById("operator-modal-name").textContent = displayName;
 
         // Calculate user stats
-        const userSessions = sessionsData.filter(
+        const user会话 = sessionsData.filter(
           (s) =>
             s.originator?.userId === operator.id ||
             s.originator?.userId === operator.metadata?.slackId ||
             s.originator?.displayName === displayName,
         );
 
-        const activeSessions = userSessions.filter((s) => s.active).length;
-        const totalTokens = userSessions.reduce((sum, s) => sum + (s.tokens || 0), 0);
+        const active会话 = user会话.filter((s) => s.active).length;
+        const totalTokens = user会话.reduce((sum, s) => sum + (s.tokens || 0), 0);
         const tokensFormatted =
           totalTokens > 1000000
             ? (totalTokens / 1000000).toFixed(1) + "M"
@@ -3322,18 +3323,18 @@
           <div class="detail-section">
             <h3>📊 Stats</h3>
             <div class="detail-box">
-              <div class="detail-row"><span class="detail-label">Active Sessions</span><span class="detail-value">${activeSessions}</span></div>
-              <div class="detail-row"><span class="detail-label">Total Sessions</span><span class="detail-value">${userSessions.length}</span></div>
+              <div class="detail-row"><span class="detail-label">活跃会话</span><span class="detail-value">${active会话}</span></div>
+              <div class="detail-row"><span class="detail-label">总会话数</span><span class="detail-value">${user会话.length}</span></div>
               <div class="detail-row"><span class="detail-label">Total Tokens</span><span class="detail-value">${tokensFormatted}</span></div>
               <div class="detail-row"><span class="detail-label">First Seen</span><span class="detail-value">${operator.firstSeen ? new Date(operator.firstSeen).toLocaleDateString() : "—"}</span></div>
             </div>
           </div>
           
           <div class="detail-section">
-            <h3>💬 Recent Sessions</h3>
+            <h3>💬 最近会话</h3>
             <div class="detail-box" style="font-size: 0.85rem;">
               ${
-                userSessions
+                user会话
                   .slice(0, 5)
                   .map(
                     (s) => `
@@ -3359,10 +3360,10 @@
         }, 200);
       }
 
-      // Privacy Settings - Topics, Sessions, Crons, Display Options
+      // Privacy Settings - Topics, 会话, Crons, Display Options
       // Server-side storage with localStorage as cache/fallback
       const HIDDEN_TOPICS_KEY = "openclawHiddenTopics";
-      const HIDDEN_SESSIONS_KEY = "openclawHiddenSessions";
+      const HIDDEN_SESSIONS_KEY = "openclawHidden会话";
       const HIDDEN_CRONS_KEY = "openclawHiddenCrons";
       const HIDE_HOSTNAME_KEY = "openclawHideHostname";
       const PRIVACY_CACHE_KEY = "openclawPrivacyCache";
@@ -3382,7 +3383,7 @@
             // Migrate old localStorage data if server is empty
             if (
               (!settings.hiddenTopics || settings.hiddenTopics.length === 0) &&
-              (!settings.hiddenSessions || settings.hiddenSessions.length === 0) &&
+              (!settings.hidden会话 || settings.hidden会话.length === 0) &&
               (!settings.hiddenCrons || settings.hiddenCrons.length === 0)
             ) {
               await migrateLocalStorageToServer();
@@ -3403,7 +3404,7 @@
         // Final fallback - empty settings
         privacySettingsCache = {
           hiddenTopics: [],
-          hiddenSessions: [],
+          hidden会话: [],
           hiddenCrons: [],
           hideHostname: false,
         };
@@ -3438,15 +3439,15 @@
       // Migrate old localStorage data to server (one-time migration)
       async function migrateLocalStorageToServer() {
         const oldTopics = getLocalHiddenItems(HIDDEN_TOPICS_KEY);
-        const oldSessions = getLocalHiddenItems(HIDDEN_SESSIONS_KEY);
+        const old会话 = getLocalHiddenItems(HIDDEN_SESSIONS_KEY);
         const oldCrons = getLocalHiddenItems(HIDDEN_CRONS_KEY);
         const oldHostname = localStorage.getItem(HIDE_HOSTNAME_KEY) === "true";
 
-        if (oldTopics.length || oldSessions.length || oldCrons.length || oldHostname) {
+        if (oldTopics.length || old会话.length || oldCrons.length || oldHostname) {
           console.log("[Privacy] Migrating localStorage data to server...");
           privacySettingsCache = {
             hiddenTopics: oldTopics,
-            hiddenSessions: oldSessions,
+            hidden会话: old会话,
             hiddenCrons: oldCrons,
             hideHostname: oldHostname,
           };
@@ -3488,11 +3489,11 @@
 
       // Session-specific functions
       function getHiddenSessions() {
-        return privacySettingsCache?.hiddenSessions || [];
+        return privacySettingsCache?.hidden会话 || [];
       }
       function setHiddenSessions(sessions) {
         if (!privacySettingsCache) privacySettingsCache = {};
-        privacySettingsCache.hiddenSessions = sessions;
+        privacySettingsCache.hidden会话 = sessions;
         savePrivacyToServer();
       }
       function isSessionHidden(session) {
@@ -3872,9 +3873,9 @@
         document.getElementById("cost-savings").innerHTML = savingsHtml;
 
         // Top sessions by tokens
-        const topSessions = data.topSessions || [];
-        if (topSessions.length > 0) {
-          document.getElementById("cost-top-sessions").innerHTML = topSessions
+        const top会话 = data.top会话 || [];
+        if (top会话.length > 0) {
+          document.getElementById("cost-top-sessions").innerHTML = top会话
             .map((s, i) => {
               const tokensFormatted =
                 s.tokens >= 1000000
@@ -4121,11 +4122,11 @@
 
         // Update refresh bar mode indicator
         if (status === "connected") {
-          refreshMode.textContent = "Real-time updates via SSE ⚡";
+          refreshMode.textContent = "通过 SSE 实时更新 ⚡";
         } else if (status === "disconnected") {
           refreshMode.textContent = "Polling mode (SSE disconnected)";
         } else {
-          refreshMode.textContent = "Connecting...";
+          refreshMode.textContent = "连接中...";
         }
       }
 
@@ -4138,7 +4139,7 @@
           return;
         }
 
-        setConnectionStatus("connecting", "Connecting...");
+        setConnectionStatus("connecting", "连接中...");
 
         try {
           eventSource = new EventSource("/api/events");
@@ -4174,7 +4175,7 @@
               // Update timestamp on heartbeat
               const now = new Date().toLocaleTimeString();
               document.getElementById("last-updated").textContent = now + " ⚡";
-              document.getElementById("sidebar-updated").textContent = `Live: ${now}`;
+              document.getElementById("sidebar-updated").textContent = `在线：${now}`;
             } catch (err) {}
           });
 
@@ -4209,7 +4210,7 @@
         // Update timestamp with live indicator
         const now = new Date().toLocaleTimeString();
         document.getElementById("last-updated").textContent = now + " ⚡";
-        document.getElementById("sidebar-updated").textContent = `Live: ${now}`;
+        document.getElementById("sidebar-updated").textContent = `在线：${now}`;
 
         // Render full state (unified approach)
         renderFullState(data);
@@ -4343,7 +4344,7 @@
 
           document.getElementById("codex-5h-pct").textContent = `${h5Pct}%`;
           document.getElementById("codex-day-pct").textContent = `${dayPct}%`;
-          document.getElementById("codex-tasks").textContent = quotaData.codex.tasksToday || 0;
+          document.getElementById("codex-tasks").textContent = quotaData.codex.tasks今日 || 0;
 
           const h5Bar = document.getElementById("codex-5h-bar");
           const dayBar = document.getElementById("codex-day-bar");
@@ -4387,7 +4388,7 @@
         }
       }
 
-      async function pruneStalesSessions() {
+      async function pruneStaleSessions() {
         try {
           const response = await fetch("/api/action?action=prune-stale");
           const data = await response.json();
