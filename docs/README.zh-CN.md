@@ -162,7 +162,11 @@ command-center/
 
 ## 贡献
 
-欢迎贡献！请先阅读 [CONTRIBUTING.md](../CONTRIBUTING.md)。
+欢迎贡献！请先阅读 [CONTRIBUTING.md](../CONTRIBUTING.md)（英文）或 [CONTRIBUTING.zh-CN.md](../CONTRIBUTING.zh-CN.md)（中文）。
+
+## 行为规范
+
+请同时遵守 [CODE_OF_CONDUCT.md](../CODE_OF_CONDUCT.md)（英文）或 [CODE_OF_CONDUCT.zh-CN.md](../CODE_OF_CONDUCT.zh-CN.md)（中文）。
 
 ---
 

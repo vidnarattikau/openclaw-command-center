@@ -1,5 +1,7 @@
 # Code of Conduct
 
+> 🇨🇳 简体中文版本：[CODE_OF_CONDUCT.zh-CN.md](./CODE_OF_CONDUCT.zh-CN.md)
+
 > _"The Swarm is united. Division is corruption."_
 
 ## Our Pledge
