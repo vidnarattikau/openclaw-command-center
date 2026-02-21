@@ -4,6 +4,8 @@
 
 ## 📚 Contents
 
+- 🇨🇳 简体中文文档：[README.zh-CN.md](./README.zh-CN.md)
+
 ### Getting Started
 
 - [Installation Guide](./guides/installation.md) _(coming soon)_

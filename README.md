@@ -10,7 +10,7 @@
 [![ClawHub](https://img.shields.io/badge/ClawHub-command--center-blue)](https://www.clawhub.ai/jontsai/command-center)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/jontsai/openclaw-command-center/pulls)
 
-[Features](#features) • [Quick Start](#quick-start) • [Security](#-security) • [Configuration](#configuration)
+[Features](#features) • [Quick Start](#quick-start) • [Security](#-security) • [Configuration](#configuration) • [简体中文文档](./docs/README.zh-CN.md)
 
 </div>
 
