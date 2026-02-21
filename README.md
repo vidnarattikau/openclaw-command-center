@@ -10,12 +10,13 @@
 [![ClawHub](https://img.shields.io/badge/ClawHub-command--center-blue)](https://www.clawhub.ai/jontsai/command-center)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/jontsai/openclaw-command-center/pulls)
 
-[Features](#features) • [Quick Start](#quick-start) • [Security](#-security) • [Configuration](#configuration) • [简体中文文档](./docs/README.zh-CN.md)
+[Features](#features) • [Quick Start](#quick-start) • [Security](#-security) • [Configuration](#configuration) • [简体中文](./README.zh-CN.md)
 
 ## 🌐 Documentation Languages
 
-- English: [README.md](./README.md)
-- 简体中文: [docs/README.zh-CN.md](./docs/README.zh-CN.md)
+- English (current): [README.md](./README.md)
+- 简体中文（一键切换）: [README.zh-CN.md](./README.zh-CN.md)
+- 中文详细文档: [docs/README.zh-CN.md](./docs/README.zh-CN.md)
 - Contributor Guide (中文): [CONTRIBUTING.zh-CN.md](./CONTRIBUTING.zh-CN.md)
 - Code of Conduct (中文): [CODE_OF_CONDUCT.zh-CN.md](./CODE_OF_CONDUCT.zh-CN.md)
 
