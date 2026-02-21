@@ -43,6 +43,18 @@
     ["Health Check", "健康检查"],
     ["Gateway Status", "网关状态"],
     ["Clean Stale Sessions", "清理陈旧会话"],
+    ["Active Sub-agents", "活跃子代理"],
+    ["LLM Fuel Gauges", "LLM 油量"],
+    ["Routing:", "路由："],
+    ["Session Limit", "会话限制"],
+    ["Weekly (All Models)", "周限制（全模型）"],
+    ["Sonnet Weekly", "Sonnet 周限制"],
+    ["Task Routing", "任务路由"],
+    ["Avg latency:", "平均延迟："],
+    ["remaining", "剩余"],
+    ["resets in", "重置于"],
+    ["resets", "重置"],
+    ["used", "已用"],
     ["All", "全部"],
     ["Active", "启用"],
     ["Paused", "暂停"],
@@ -110,6 +122,18 @@
     out = out.replace(/^Job \"(.+)\" queued for execution$/i, '任务 "$1" 已加入执行队列');
     out = out.replace(/^Job \"(.+)\" paused$/i, '任务 "$1" 已暂停');
     out = out.replace(/^Job \"(.+)\" resumed$/i, '任务 "$1" 已恢复');
+
+    out = out.replace(/\bFailed to fetch sessions\b/g, "拉取会话失败");
+    out = out.replace(/\bFailed to fetch state\b/g, "拉取状态失败");
+    out = out.replace(/\bFailed to fetch operators\b/g, "拉取操作者失败");
+    out = out.replace(/\bFailed to fetch routing stats\b/g, "拉取路由统计失败");
+    out = out.replace(/\bFailed to fetch LLM usage\b/g, "拉取 LLM 用量失败");
+    out = out.replace(/\bFailed to load operator\b/g, "加载操作者失败");
+    out = out.replace(/\bFailed to load user data\b/g, "加载用户数据失败");
+    out = out.replace(/\bFailed to fetch detail\b/g, "拉取详情失败");
+    out = out.replace(/\bRequest timed out\b/g, "请求超时");
+    out = out.replace(/\bFailed to load session\b/g, "加载会话失败");
+    out = out.replace(/\bFailed to load cost data\b/g, "加载成本数据失败");
 
     if (out === "Failed to load jobs") out = "加载任务失败";
     if (out === "Failed to run job") out = "执行任务失败";
